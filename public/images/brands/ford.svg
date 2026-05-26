@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <ellipse cx="24" cy="24" rx="22" ry="14" fill="#003478"/>
+  <path fill="#fff" d="M11 24c0-5.8 5.8-10.5 13-10.5S37 18.2 37 24s-5.8 10.5-13 10.5S11 29.8 11 24Zm4.2 0c0 3.7 4 6.7 8.8 6.7s8.8-3 8.8-6.7-4-6.7-8.8-6.7-8.8 3-8.8 6.7Z"/>
+  <text x="24" y="27" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="9" font-weight="700">FORD</text>
+</svg>
