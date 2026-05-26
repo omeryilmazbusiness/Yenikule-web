@@ -306,6 +306,32 @@ export function SettingsForm({ defaultValues, className }: SettingsFormProps) {
           </div>
         </FormSection>
 
+        <FormSection
+          title="Tasarım özelleştirme"
+          description="Ana sayfa hero alanında gösterilecek arka plan videosu."
+        >
+          <FormField
+            control={form.control}
+            name="design.heroBackgroundVideoUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Ana sayfa arkaplan video URL</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    {...field}
+                  />
+                </FormControl>
+                <p className="text-xs text-muted-foreground">
+                  YouTube linki (watch, shorts, youtu.be) veya doğrudan video
+                  dosyası (.mp4, .webm) URL&apos;si girebilirsiniz.
+                </p>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </FormSection>
+
         <div className="admin-form-actions">
           <Button type="submit" disabled={form.formState.isSubmitting} className="min-h-11">
             {form.formState.isSubmitting ? (

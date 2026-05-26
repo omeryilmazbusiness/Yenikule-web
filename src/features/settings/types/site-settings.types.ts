@@ -21,6 +21,11 @@ export type SiteCompanyInfo = {
   mersis: string;
 };
 
+export type SiteDesignSettings = {
+  /** YouTube linki veya doğrudan .mp4 / .webm video URL */
+  heroBackgroundVideoUrl: string;
+};
+
 export type SiteSettings = {
   name: string;
   shortName: string;
@@ -36,5 +41,6 @@ export type SiteSettings = {
   workingHours: string;
   socialLinks: SiteSocialLinks;
   company: SiteCompanyInfo;
+  design: SiteDesignSettings;
   updatedAt: string;
 };

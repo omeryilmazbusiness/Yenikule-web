@@ -1,4 +1,5 @@
 import type { SiteSettings } from "@/features/settings/types/site-settings.types";
+import { HERO_YOUTUBE_URL } from "@/data/home/hero-video";
 import { siteConfig } from "@/lib/site-config";
 
 export function getDefaultSiteSettings(): SiteSettings {
@@ -18,6 +19,9 @@ export function getDefaultSiteSettings(): SiteSettings {
     workingHours: siteConfig.workingHours,
     socialLinks: { ...siteConfig.socialLinks },
     company: { ...siteConfig.company },
+    design: {
+      heroBackgroundVideoUrl: HERO_YOUTUBE_URL,
+    },
     updatedAt: new Date().toISOString(),
   };
 }

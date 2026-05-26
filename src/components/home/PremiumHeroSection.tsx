@@ -15,9 +15,12 @@ import { Container } from "@/components/common/Container";
 import { HeroGlobalSearch } from "@/components/home/HeroGlobalSearch";
 import { HomeMobileQuickNav } from "@/components/home/HomeMobileQuickNav";
 import { HeroOverlay } from "@/components/home/HeroOverlay";
-import { HeroYouTubeBackground } from "@/components/home/HeroYouTubeBackground";
+import { HeroBackgroundVideo } from "@/components/home/HeroBackgroundVideo";
 import { searchAnalyticsService } from "@/features/search/services/search-analytics.service";
 import { searchService } from "@/features/search/services/search.service";
+import { HERO_YOUTUBE_URL } from "@/data/home/hero-video";
+import { resolveHeroBackgroundVideo } from "@/features/settings/utils/hero-background-video";
+import { getPublicSiteConfig } from "@/lib/get-public-site-config";
 import { routes } from "@/lib/routes";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/cn";
@@ -30,18 +33,33 @@ const trustIndicators = [
 ] as const;
 
 export async function PremiumHeroSection() {
-  const [searchIndex, trendingSearches] = await Promise.all([
+  const [searchIndex, trendingSearches, siteConfig] = await Promise.all([
     searchService.getPublicIndex(),
     searchAnalyticsService.getTrendingForHero(),
+    getPublicSiteConfig(),
   ]);
 
+  const heroVideoUrl =
+    siteConfig.design?.heroBackgroundVideoUrl ?? HERO_YOUTUBE_URL;
+  const heroVideo =
+    resolveHeroBackgroundVideo(heroVideoUrl) ??
+    resolveHeroBackgroundVideo(HERO_YOUTUBE_URL);
+
   const whatsappUrl = getWhatsAppUrl(
-    "Merhaba, Yeni Kule İnşaat hakkında bilgi almak istiyorum.",
+    `Merhaba, ${siteConfig.name} hakkında bilgi almak istiyorum.`,
+    siteConfig.whatsapp,
   );
 
   return (
     <section className="home-hero relative flex min-h-[100dvh] items-end overflow-hidden lg:items-center">
-      <HeroYouTubeBackground />
+      {heroVideo ? (
+        <HeroBackgroundVideo
+          source={heroVideo}
+          title={`${siteConfig.name} tanıtım videosu`}
+        />
+      ) : (
+        <div className="home-hero-gradient-fallback absolute inset-0" aria-hidden />
+      )}
       <HeroOverlay />
 
       <Container className="home-hero-container relative z-10">

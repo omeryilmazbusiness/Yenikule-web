@@ -2,10 +2,11 @@ import { getDefaultSiteSettings } from "@/features/settings/data/default-site-se
 import { siteSettingsRepository } from "@/features/settings/repositories/site-settings.repository";
 import { siteSettingsSchema } from "@/features/settings/schemas/site-settings.schema";
 import type { SiteSettings } from "@/features/settings/types/site-settings.types";
+import { normalizeSiteSettings } from "@/features/settings/utils/normalize-site-settings";
 
 export const siteSettingsService = {
   async get(): Promise<SiteSettings> {
-    return siteSettingsRepository.get();
+    return normalizeSiteSettings(await siteSettingsRepository.get());
   },
 
   async getDefaults(): Promise<SiteSettings> {
@@ -22,6 +23,7 @@ export const siteSettingsService = {
       address: { ...current.address, ...parsed.address },
       socialLinks: { ...current.socialLinks, ...parsed.socialLinks },
       company: { ...current.company, ...parsed.company },
+      design: { ...current.design, ...parsed.design },
     };
 
     return siteSettingsRepository.save(merged);

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { isValidHeroBackgroundVideoUrl } from "@/features/settings/utils/hero-background-video";
+
 const addressSchema = z.object({
   street: z.string().trim().min(2),
   district: z.string().trim().min(2),
@@ -33,6 +35,16 @@ export const siteSettingsSchema = z.object({
     taxOffice: z.string().trim().min(2),
     taxNumber: z.string().trim().min(5),
     mersis: z.string().trim().min(5),
+  }),
+  design: z.object({
+    heroBackgroundVideoUrl: z
+      .string()
+      .trim()
+      .min(1, "Ana sayfa video URL gereklidir.")
+      .refine(isValidHeroBackgroundVideoUrl, {
+        message:
+          "Geçerli bir YouTube linki veya video dosyası URL'si giriniz (.mp4, .webm).",
+      }),
   }),
 });
 
