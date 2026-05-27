@@ -2,6 +2,7 @@
 
 import { Loader2, RotateCcw } from "lucide-react";
 
+import { ListingsSegmentSwitch } from "@/components/listings/ListingsSegmentSwitch";
 import { VehicleFilterFields } from "@/components/vehicles/VehicleFilterFields";
 import { useVehicleFilters } from "@/components/vehicles/use-vehicle-filters";
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,13 @@ export function VehicleFilters({ className }: VehicleFiltersProps) {
           </Button>
         </div>
 
-        <VehicleFilterFields filters={applied} onPatch={patchFilters} />
+        <ListingsSegmentSwitch className="listing-filter-sidebar-segment" />
+
+        <VehicleFilterFields
+          filters={applied}
+          onPatch={patchFilters}
+          hideSearch
+        />
       </div>
     </aside>
   );

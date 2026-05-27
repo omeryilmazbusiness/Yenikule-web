@@ -9,6 +9,7 @@ export function getDefaultSiteSettings(): SiteSettings {
     description: siteConfig.description,
     about:
       "Yeni Kule İnşaat olarak konut ve ticari projeler geliştiriyor; satış, kiralama ve yatırım danışmanlığı alanlarında güvenilir hizmet sunuyoruz.",
+    aboutImageUrl: "/images/about/yeni-kule-about-hero.png",
     logoUrl: undefined,
     phone: siteConfig.phone,
     phoneDisplay: siteConfig.phoneDisplay,

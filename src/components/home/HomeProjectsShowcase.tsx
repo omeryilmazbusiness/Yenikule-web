@@ -4,7 +4,7 @@ import { Section } from "@/components/common/Section";
 import { projectService } from "@/features/projects/services/project.service";
 
 export async function HomeProjectsShowcase() {
-  const projects = await projectService.getFeatured(3);
+  const projects = await projectService.getFeatured(8);
 
   if (projects.length === 0) {
     return null;

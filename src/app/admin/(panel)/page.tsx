@@ -28,7 +28,7 @@ const quickActions = [
   { href: routes.listings.create, label: "Yeni İlan", icon: Tag },
   { href: routes.projects.create, label: "Yeni Proje", icon: Building2 },
   { href: routes.vehicles.create, label: "Yeni Araç", icon: Car },
-  { href: routes.admin.settings, label: "Ayarlar", icon: Settings },
+  { href: routes.admin.settings, label: "Siteyi özelleştir", icon: Settings },
 ] as const;
 
 export default async function AdminDashboardPage() {

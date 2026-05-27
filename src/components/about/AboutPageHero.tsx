@@ -8,8 +8,12 @@ import { aboutStats } from "@/lib/about-content";
 import { getPublicSiteConfig } from "@/lib/get-public-site-config";
 import { routes } from "@/lib/routes";
 
+const DEFAULT_ABOUT_IMAGE = "/images/about/yeni-kule-about-hero.png";
+
 export async function AboutPageHero() {
   const siteConfig = await getPublicSiteConfig();
+  const aboutImage = siteConfig.aboutImageUrl ?? DEFAULT_ABOUT_IMAGE;
+
   return (
     <section className="about-page-hero relative overflow-hidden">
       <div className="about-page-hero-glow about-page-hero-glow-left" aria-hidden />
@@ -64,8 +68,8 @@ export async function AboutPageHero() {
           <div className="relative">
             <div className="about-page-hero-image-frame">
               <OptimizedImage
-                src="/images/placeholders/project.svg"
-                alt={`${siteConfig.name} proje ve yaşam alanı`}
+                src={aboutImage}
+                alt={`${siteConfig.name} kurumsal logo ve marka`}
                 aspectRatio="4/3"
                 rounded={false}
                 className="about-page-hero-image opacity-95"

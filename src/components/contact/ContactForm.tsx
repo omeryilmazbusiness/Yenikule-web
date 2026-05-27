@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,8 +30,8 @@ import {
   type ContactFormValues,
 } from "@/features/contact/schemas/contact.schema";
 import { CONTACT_SUBJECTS } from "@/lib/constants";
+import { KvkkConsentField } from "@/components/legal/KvkkConsentField";
 import { cn } from "@/lib/cn";
-import { routes } from "@/lib/routes";
 
 const MESSAGE_MAX = 5000;
 
@@ -321,26 +320,12 @@ export function ContactForm() {
             name="consent"
             render={({ field }) => (
               <FormItem>
-                <div className="contact-page-consent">
-                  <FormControl>
-                    <input
-                      type="checkbox"
-                      id="contact-consent"
-                      checked={field.value === true}
-                      onChange={(event) => field.onChange(event.target.checked)}
-                      className="contact-page-consent-input"
-                    />
-                  </FormControl>
-                  <label htmlFor="contact-consent" className="contact-page-consent-label">
-                    <Link
-                      href={routes.legal.kvkk}
-                      className="font-medium text-bronze underline-offset-4 hover:underline"
-                    >
-                      KVKK Aydınlatma Metni
-                    </Link>
-                    &apos;ni okudum; iletişim talebimin işlenmesini kabul ediyorum.
-                  </label>
-                </div>
+                <FormControl>
+                  <KvkkConsentField
+                    checked={field.value === true}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

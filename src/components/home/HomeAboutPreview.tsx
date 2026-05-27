@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Award,
   Building2,
-  CheckCircle2,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
@@ -12,8 +11,11 @@ import { Container } from "@/components/common/Container";
 import { OptimizedImage } from "@/components/common/OptimizedImage";
 import { Section } from "@/components/common/Section";
 import { Button } from "@/components/ui/button";
+import { getPublicSiteConfig } from "@/lib/get-public-site-config";
 import { routes } from "@/lib/routes";
 import { cn } from "@/lib/cn";
+
+const DEFAULT_ABOUT_IMAGE = "/images/about/yeni-kule-about-hero.png";
 
 const highlights = [
   {
@@ -36,7 +38,10 @@ const stats = [
   { value: "Şeffaf", label: "Portföy Yönetimi", icon: Building2 },
 ] as const;
 
-export function HomeAboutPreview() {
+export async function HomeAboutPreview() {
+  const siteConfig = await getPublicSiteConfig();
+  const aboutImage = siteConfig.aboutImageUrl ?? DEFAULT_ABOUT_IMAGE;
+
   return (
     <Section background="dark" className="home-about-section relative overflow-hidden">
       <div className="home-about-glow pointer-events-none absolute -left-32 top-0 size-[28rem] rounded-full bg-bronze/10 blur-3xl" aria-hidden />
@@ -47,8 +52,8 @@ export function HomeAboutPreview() {
           <div className="relative order-2 lg:order-1">
             <div className="home-about-image-frame">
               <OptimizedImage
-                src="/images/placeholders/project.svg"
-                alt="Yeni Kule İnşaat proje ve yaşam alanı"
+                src={aboutImage}
+                alt={`${siteConfig.name} kurumsal marka görseli`}
                 aspectRatio="4/3"
                 rounded={false}
                 className="home-about-image"

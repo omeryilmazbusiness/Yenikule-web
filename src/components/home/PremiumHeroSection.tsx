@@ -26,10 +26,26 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/cn";
 
 const trustIndicators = [
-  { icon: Home, label: "Modern Konut Projeleri" },
-  { icon: Layers, label: "Satılık & Kiralık Portföy" },
-  { icon: ShieldCheck, label: "Güvenilir Teslim Süreci" },
-  { icon: TrendingUp, label: "Yatırım Odaklı Yaklaşım" },
+  {
+    icon: Home,
+    label: "Modern Konut Projeleri",
+    mobileLabel: "Konut Projeleri",
+  },
+  {
+    icon: Layers,
+    label: "Satılık & Kiralık Portföy",
+    mobileLabel: "Satılık / Kiralık",
+  },
+  {
+    icon: ShieldCheck,
+    label: "Güvenilir Teslim Süreci",
+    mobileLabel: "Güvenilir Teslim",
+  },
+  {
+    icon: TrendingUp,
+    label: "Yatırım Odaklı Yaklaşım",
+    mobileLabel: "Yatırım Odaklı",
+  },
 ] as const;
 
 export async function PremiumHeroSection() {
@@ -112,16 +128,15 @@ export async function PremiumHeroSection() {
 
             <HomeMobileQuickNav />
 
-            <ul className="hero-trust-rail mt-6 lg:mt-10">
+            <ul className="hero-trust-rail home-hero-trust-rail mt-10">
               {trustIndicators.map((item) => (
                 <li key={item.label} className="hero-trust-chip home-hero-trust-chip">
                   <span className="hero-trust-chip-icon">
-                    <item.icon
-                      className="size-5 text-bronze-soft sm:size-[1.35rem]"
-                      aria-hidden
-                    />
+                    <item.icon className="hero-trust-chip-svg" aria-hidden />
                   </span>
-                  <span className="hero-trust-chip-label">{item.label}</span>
+                  <span className="hero-trust-chip-label">
+                    <span>{item.label}</span>
+                  </span>
                 </li>
               ))}
             </ul>
@@ -132,8 +147,8 @@ export async function PremiumHeroSection() {
       <a
         href="#kesfet"
         className={cn(
-          "absolute bottom-[var(--mobile-dock-clearance)] left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1.5",
-          "text-white/45 transition-colors hover:text-white/80 md:bottom-24 md:flex",
+          "home-hero-discover-desktop absolute bottom-24 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1.5",
+          "text-white/45 transition-colors hover:text-white/80 lg:flex",
         )}
         aria-label="Sayfayı keşfet"
       >

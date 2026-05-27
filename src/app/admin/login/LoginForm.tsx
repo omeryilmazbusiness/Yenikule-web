@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -68,8 +69,15 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md border-border shadow-lg">
       <CardHeader className="text-center">
-        <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-xl bg-primary text-lg font-bold text-primary-foreground">
-          YK
+        <div className="relative mx-auto mb-2 size-12 overflow-hidden rounded-xl bg-surface-soft">
+          <Image
+            src="/images/brand/yenikule-mark.png"
+            alt={`${siteConfig.shortName} logo`}
+            fill
+            sizes="48px"
+            className="object-contain p-1.5"
+            priority
+          />
         </div>
         <CardTitle>{siteConfig.shortName} Yönetim</CardTitle>
         <CardDescription>Yönetim paneline giriş yapın</CardDescription>

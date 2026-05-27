@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Filter, Loader2, RotateCcw, Search } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Loader2, RotateCcw, Search, SquarePen } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 import { ListingFilterFields } from "@/components/listings/ListingFilterFields";
@@ -57,6 +57,39 @@ function countVehicleFilters(filters: VehicleFilters): number {
     filters.isFeatured,
     filters.sort && filters.sort !== "newest" ? filters.sort : undefined,
   ].filter(Boolean).length;
+}
+
+function FilterSheetChrome({
+  title,
+  subtitle,
+  children,
+  footer,
+}: {
+  title: string;
+  subtitle: string;
+  children: ReactNode;
+  footer: ReactNode;
+}) {
+  return (
+    <SheetContent
+      side="bottom"
+      className="mobile-app-sheet listings-filter-sheet flex flex-col gap-0 p-0"
+    >
+      <div className="listings-filter-sheet-handle" aria-hidden />
+      <SheetHeader className="mobile-app-sheet-header shrink-0 border-b border-border/60 px-5 py-3.5 text-left">
+        <SheetTitle className="font-heading text-base">{title}</SheetTitle>
+        <p className="text-xs text-muted-foreground">{subtitle}</p>
+      </SheetHeader>
+
+      <div className="mobile-app-sheet-body min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
+        {children}
+      </div>
+
+      <SheetFooter className="mobile-app-sheet-footer listings-filter-sheet-footer gap-2 border-t border-border/60 p-4 sm:flex-col">
+        {footer}
+      </SheetFooter>
+    </SheetContent>
+  );
 }
 
 function ListingToolbar() {
@@ -128,9 +161,9 @@ function ListingToolbar() {
             setDraft(parseListingFiltersFromSearchParams(searchParams));
             setFilterOpen(true);
           }}
-          aria-label="Filtreleri aç"
+          aria-label="Arama kriterlerini düzenle"
         >
-          <Filter className="size-[1.15rem]" aria-hidden />
+          <SquarePen className="size-[1.15rem]" aria-hidden />
           {filterCount > 0 ? (
             <span className="listings-mobile-filter-badge">{filterCount}</span>
           ) : null}
@@ -138,50 +171,52 @@ function ListingToolbar() {
       </div>
 
       <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
-        <SheetContent
-          side="bottom"
-          className="flex max-h-[90vh] flex-col rounded-t-[1.35rem] p-0"
+        <FilterSheetChrome
+          title="Konut kriterleri"
+          subtitle={
+            filterCount > 0
+              ? `${filterCount} aktif filtre — düzenleyip uygulayın`
+              : "Filtreleri seçin, sonuçlar anında güncellenir"
+          }
+          footer={
+            <>
+              <Button
+                className="min-h-11 w-full rounded-2xl"
+                disabled={isPending}
+                onClick={() => {
+                  applyFilters(draft);
+                  setFilterOpen(false);
+                }}
+              >
+                {isPending ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                ) : null}
+                Sonuçları göster
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="min-h-11 w-full rounded-2xl"
+                onClick={() => {
+                  clearFilters();
+                  setDraft({});
+                  setFilterOpen(false);
+                }}
+              >
+                <RotateCcw className="size-4" aria-hidden />
+                Tümünü temizle
+              </Button>
+            </>
+          }
         >
-          <SheetHeader className="border-b border-border/60 px-5 py-4 text-left">
-            <SheetTitle className="font-heading text-lg">Filtreler</SheetTitle>
-          </SheetHeader>
-
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-            <ListingFilterFields
-              filters={draft}
-              onPatch={patchDraft}
-              draftMode
-              hideSearch
-              idPrefix="mobile-toolbar"
-            />
-          </div>
-
-          <SheetFooter className="gap-2 border-t border-border/60 p-4 sm:flex-col">
-            <Button
-              className="min-h-11 w-full"
-              disabled={isPending}
-              onClick={() => {
-                applyFilters(draft);
-                setFilterOpen(false);
-              }}
-            >
-              Sonuçları göster
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="min-h-11 w-full"
-              onClick={() => {
-                clearFilters();
-                setDraft({});
-                setFilterOpen(false);
-              }}
-            >
-              <RotateCcw className="size-4" aria-hidden />
-              Temizle
-            </Button>
-          </SheetFooter>
-        </SheetContent>
+          <ListingFilterFields
+            filters={draft}
+            onPatch={patchDraft}
+            draftMode
+            hideSearch
+            idPrefix="mobile-toolbar"
+          />
+        </FilterSheetChrome>
       </Sheet>
     </>
   );
@@ -256,9 +291,9 @@ function VehicleToolbar() {
             setDraft(parseVehicleFiltersFromSearchParams(searchParams));
             setFilterOpen(true);
           }}
-          aria-label="Araç filtrelerini aç"
+          aria-label="Araç kriterlerini düzenle"
         >
-          <Filter className="size-[1.15rem]" aria-hidden />
+          <SquarePen className="size-[1.15rem]" aria-hidden />
           {filterCount > 0 ? (
             <span className="listings-mobile-filter-badge">{filterCount}</span>
           ) : null}
@@ -266,50 +301,49 @@ function VehicleToolbar() {
       </div>
 
       <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
-        <SheetContent
-          side="bottom"
-          className="flex max-h-[90vh] flex-col rounded-t-[1.35rem] p-0"
+        <FilterSheetChrome
+          title="Araç kriterleri"
+          subtitle={
+            filterCount > 0
+              ? `${filterCount} aktif filtre — düzenleyip uygulayın`
+              : "Marka, fiyat ve özelliklere göre daraltın"
+          }
+          footer={
+            <>
+              <Button
+                className="min-h-11 w-full rounded-2xl"
+                disabled={isPending}
+                onClick={() => {
+                  applyFilters(draft);
+                  setFilterOpen(false);
+                }}
+              >
+                Sonuçları göster
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="min-h-11 w-full rounded-2xl"
+                onClick={() => {
+                  clearFilters();
+                  setDraft({});
+                  setFilterOpen(false);
+                }}
+              >
+                <RotateCcw className="size-4" aria-hidden />
+                Tümünü temizle
+              </Button>
+            </>
+          }
         >
-          <SheetHeader className="border-b border-border/60 px-5 py-4 text-left">
-            <SheetTitle className="font-heading text-lg">Araç filtreleri</SheetTitle>
-          </SheetHeader>
-
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-            <VehicleFilterFields
-              filters={draft}
-              onPatch={patchDraft}
-              draftMode
-              hideSearch
-              idPrefix="mobile-toolbar"
-            />
-          </div>
-
-          <SheetFooter className="gap-2 border-t border-border/60 p-4 sm:flex-col">
-            <Button
-              className="min-h-11 w-full"
-              disabled={isPending}
-              onClick={() => {
-                applyFilters(draft);
-                setFilterOpen(false);
-              }}
-            >
-              Sonuçları göster
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="min-h-11 w-full"
-              onClick={() => {
-                clearFilters();
-                setDraft({});
-                setFilterOpen(false);
-              }}
-            >
-              <RotateCcw className="size-4" aria-hidden />
-              Temizle
-            </Button>
-          </SheetFooter>
-        </SheetContent>
+          <VehicleFilterFields
+            filters={draft}
+            onPatch={patchDraft}
+            draftMode
+            hideSearch
+            idPrefix="mobile-toolbar"
+          />
+        </FilterSheetChrome>
       </Sheet>
     </>
   );

@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { Container } from "@/components/common/Container";
+import { HaremGoldLiveTrigger } from "@/components/market/HaremGoldLiveTrigger";
 import { PublicMobileMenu } from "@/components/layout/PublicMobileMenu";
 import { useSiteConfig } from "@/components/providers/SiteConfigProvider";
 import { routes } from "@/lib/routes";
@@ -39,11 +41,19 @@ export function PublicMobileHeader({
           >
             <span
               className={cn(
-                "flex size-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold",
-                overlay ? "bg-white/10 text-white" : "bg-anthracite text-white",
+                "relative flex size-9 shrink-0 items-center justify-center rounded-lg",
+                overlay ? "bg-white/10" : "bg-anthracite/5",
               )}
+              aria-hidden
             >
-              YK
+              <Image
+                src="/images/brand/yenikule-mark.png"
+                alt=""
+                fill
+                sizes="36px"
+                className="object-contain p-1"
+                priority={overlay}
+              />
             </span>
             <span
               className={cn(
@@ -56,6 +66,7 @@ export function PublicMobileHeader({
           </Link>
 
           <div className="flex items-center gap-0.5">
+            <HaremGoldLiveTrigger overlay={overlay} compact />
             <a
               href={whatsappUrl}
               target="_blank"

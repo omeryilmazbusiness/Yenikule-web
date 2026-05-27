@@ -6,9 +6,9 @@ import {
   ArrowRight,
   Building2,
   Car,
-  Filter,
   Layers,
   Search,
+  SquarePen,
   X,
 } from "lucide-react";
 import {
@@ -289,10 +289,10 @@ export function HeroGlobalSearch({
                   "hero-search-bar-filter-active",
               )}
               onClick={openFilters}
-              aria-label="Arama filtrelerini aç"
+              aria-label="Arama kriterlerini düzenle"
               aria-expanded={isFilterOpen || isMobileFilterOpen}
             >
-              <Filter className="size-[1.15rem]" aria-hidden />
+              <SquarePen className="size-[1.15rem]" aria-hidden />
               {activeFilterCount > 0 ? (
                 <span className="hero-search-bar-filter-badge" aria-hidden>
                   {activeFilterCount}
@@ -302,12 +302,13 @@ export function HeroGlobalSearch({
           </div>
 
           {isFilterOpen ? (
-            <HeroSearchFiltersPanel
-              filters={filters}
-              onChange={setFilters}
-              onReset={resetFilters}
-              className="hero-search-filter-dropdown hidden lg:block"
-            />
+            <div className="hero-search-filter-dropdown hidden lg:block">
+              <HeroSearchFiltersPanel
+                filters={filters}
+                onChange={setFilters}
+                onReset={resetFilters}
+              />
+            </div>
           ) : null}
         </form>
 
@@ -423,17 +424,31 @@ export function HeroGlobalSearch({
       <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
         <SheetContent
           side="bottom"
-          className="hero-search-filter-sheet rounded-t-[1.35rem] px-0 pb-8 pt-0 lg:hidden"
+          className="mobile-app-sheet hero-search-filter-sheet flex flex-col gap-0 p-0 lg:hidden"
         >
-          <SheetHeader className="border-b border-border/60 px-5 py-4 text-left">
-            <SheetTitle className="font-heading text-lg">Arama Filtreleri</SheetTitle>
+          <div className="hero-search-filter-sheet-handle" aria-hidden />
+          <SheetHeader className="mobile-app-sheet-header shrink-0 border-b border-border/60 px-5 py-3.5 text-left">
+            <SheetTitle className="font-heading text-base">Arama kriterleri</SheetTitle>
           </SheetHeader>
-          <HeroSearchFiltersPanel
-            filters={filters}
-            onChange={setFilters}
-            onReset={resetFilters}
-            className="border-0 bg-transparent px-5 pt-4 shadow-none"
-          />
+          <div className="mobile-app-sheet-body min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
+            <HeroSearchFiltersPanel
+              filters={filters}
+              onChange={setFilters}
+              onReset={resetFilters}
+              variant="sheet"
+              hideChrome
+              className="border-0 bg-transparent p-0 shadow-none"
+            />
+          </div>
+          <div className="mobile-app-sheet-footer border-t border-border/60 p-4">
+            <button
+              type="button"
+              className="hero-search-filter-apply"
+              onClick={() => setIsMobileFilterOpen(false)}
+            >
+              Kriterleri uygula
+            </button>
+          </div>
         </SheetContent>
       </Sheet>
     </div>

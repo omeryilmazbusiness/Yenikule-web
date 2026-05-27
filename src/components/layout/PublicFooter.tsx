@@ -7,9 +7,11 @@ import {
   Play,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/common/Container";
+import { KvkkDialogTrigger } from "@/components/legal/KvkkDialogTrigger";
 import { cn } from "@/lib/cn";
 import { LISTING_CATEGORIES } from "@/lib/constants";
 import { getPublicSiteConfig } from "@/lib/get-public-site-config";
@@ -50,8 +52,14 @@ export async function PublicFooter({ className }: PublicFooterProps) {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-12">
           <div className="space-y-5 lg:col-span-4">
             <Link href={routes.home} className="inline-flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-bronze/20 text-sm font-bold text-bronze-soft">
-                YK
+              <span className="relative flex size-10 items-center justify-center rounded-xl bg-bronze/10">
+                <Image
+                  src="/images/brand/yenikule-mark.png"
+                  alt={`${siteConfig.shortName} logo`}
+                  fill
+                  sizes="40px"
+                  className="object-contain p-1.5"
+                />
               </span>
               <span className="font-heading text-lg font-semibold">
                 {siteConfig.name}
@@ -156,12 +164,22 @@ export async function PublicFooter({ className }: PublicFooterProps) {
           <ul className="flex flex-wrap gap-4">
             {legalLinks.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-xs text-footer-muted transition-colors hover:text-footer-foreground"
-                >
-                  {link.label}
-                </Link>
+                {link.href === routes.legal.kvkk ? (
+                  <KvkkDialogTrigger
+                    label={link.label}
+                    legalName={siteConfig.company.legalName}
+                    email={siteConfig.email}
+                    address={siteConfig.address.full}
+                    className="text-xs text-footer-muted transition-colors hover:text-footer-foreground"
+                  />
+                ) : (
+                  <Link
+                    href={link.href}
+                    className="text-xs text-footer-muted transition-colors hover:text-footer-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

@@ -3,10 +3,10 @@ import { Suspense } from "react";
 import { ListingActiveFilters } from "@/components/listings/ListingActiveFilters";
 import { ListingFilters } from "@/components/listings/ListingFilters";
 import { ListingGrid } from "@/components/listings/ListingGrid";
-import { ListingsMobileStickyToolbar } from "@/components/listings/ListingsMobileStickyToolbar";
+import { ListingsMobileStickyHead } from "@/components/listings/ListingsMobileStickyHead";
 import { ListingPagination } from "@/components/listings/ListingPagination";
 import { ListingsResultsHeader } from "@/components/listings/ListingsResultsHeader";
-import { ListingsSegmentTabs } from "@/components/listings/ListingsSegmentTabs";
+import { ListingsSegmentTransition } from "@/components/listings/ListingsSegmentTransition";
 import { PageShell } from "@/components/layout/PageShell";
 import { VehicleActiveFilters } from "@/components/vehicles/VehicleActiveFilters";
 import { VehicleFilters } from "@/components/vehicles/VehicleFilters";
@@ -104,20 +104,15 @@ async function ListingsContent({
 
   return (
     <>
-      <div className="listings-segment-bar hidden lg:flex lg:mb-6">
-        <ListingsSegmentTabs />
-      </div>
+      <ListingsMobileStickyHead segment={segment} />
 
-      <div className="listings-mobile-sticky-head lg:hidden">
-        <ListingsSegmentTabs />
-        <ListingsMobileStickyToolbar segment={segment} />
-      </div>
-
-      {segment === "arac" ? (
-        <VehicleListingsContent searchParams={searchParams} />
-      ) : (
-        <KonutListingsContent searchParams={searchParams} />
-      )}
+      <ListingsSegmentTransition segment={segment}>
+        {segment === "arac" ? (
+          <VehicleListingsContent searchParams={searchParams} />
+        ) : (
+          <KonutListingsContent searchParams={searchParams} />
+        )}
+      </ListingsSegmentTransition>
     </>
   );
 }

@@ -1,12 +1,23 @@
 /** Central image paths and URL normalization for next/image + mock uploads */
 
+/** Konut ve proje ilanları için varsayılan kapak görseli */
+export const DEFAULT_PROPERTY_IMAGE = "/images/placeholders/default-property.png";
+export const DEFAULT_VEHICLE_IMAGE = "/images/placeholders/default-vehicle.png";
+
 export const IMAGE_PLACEHOLDERS = {
-  listing: "/images/placeholders/listing.svg",
-  project: "/images/placeholders/project.svg",
-  vehicle: "/images/placeholders/vehicle.svg",
+  listing: DEFAULT_PROPERTY_IMAGE,
+  project: DEFAULT_PROPERTY_IMAGE,
+  vehicle: DEFAULT_VEHICLE_IMAGE,
   hero: "/images/hero-poster.svg",
-  general: "/images/placeholders/listing.svg",
+  general: DEFAULT_PROPERTY_IMAGE,
 } as const;
+
+/** Eski SVG placeholder — görsel yok sayılır */
+const LEGACY_PROPERTY_PLACEHOLDERS = new Set([
+  "/images/placeholders/listing.svg",
+  "/images/placeholders/project.svg",
+]);
+const LEGACY_VEHICLE_PLACEHOLDER = "/images/placeholders/vehicle.svg";
 
 export type ImagePlaceholderKey = keyof typeof IMAGE_PLACEHOLDERS;
 
@@ -41,6 +52,13 @@ export function sanitizeImageUrl(
   if (!src || !src.trim()) return fallback;
 
   const trimmed = src.trim();
+
+  if (LEGACY_PROPERTY_PLACEHOLDERS.has(trimmed)) {
+    return fallback;
+  }
+  if (trimmed === LEGACY_VEHICLE_PLACEHOLDER && fallback === DEFAULT_VEHICLE_IMAGE) {
+    return fallback;
+  }
 
   if (INVALID_HOST_PATTERNS.some((pattern) => pattern.test(trimmed))) {
     return fallback;

@@ -19,7 +19,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     routes.vehicles.index,
     routes.legal.privacy,
     routes.legal.terms,
-    routes.legal.kvkk,
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: now,

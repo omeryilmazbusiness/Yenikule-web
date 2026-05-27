@@ -1,11 +1,13 @@
 "use client";
 
 import { Mail } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { Container } from "@/components/common/Container";
+import { HaremGoldLiveTrigger } from "@/components/market/HaremGoldLiveTrigger";
 import { useSiteConfig } from "@/components/providers/SiteConfigProvider";
 import { publicNavLinks } from "@/lib/public-nav";
 import { routes } from "@/lib/routes";
@@ -16,7 +18,10 @@ type PublicHeaderProps = {
   overlay?: boolean;
 };
 
-export function PublicHeader({ className, overlay = false }: PublicHeaderProps) {
+export function PublicHeader({
+  className,
+  overlay = false,
+}: PublicHeaderProps) {
   const siteConfig = useSiteConfig();
   const pathname = usePathname();
   const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`;
@@ -37,13 +42,19 @@ export function PublicHeader({ className, overlay = false }: PublicHeaderProps) 
           >
             <span
               className={cn(
-                "flex size-10 items-center justify-center rounded-xl text-sm font-bold",
-                overlay
-                  ? "bg-white/10 text-white"
-                  : "bg-anthracite text-white",
+                "relative flex size-10 items-center justify-center rounded-xl",
+                overlay ? "bg-white/10" : "bg-anthracite/5",
               )}
+              aria-hidden
             >
-              YK
+              <Image
+                src="/images/brand/yenikule-mark.png"
+                alt=""
+                fill
+                sizes="40px"
+                className="object-contain p-1.5"
+                priority={overlay}
+              />
             </span>
             <div className="leading-tight">
               <span
@@ -104,7 +115,7 @@ export function PublicHeader({ className, overlay = false }: PublicHeaderProps) 
             <Link
               href={routes.contact}
               className={cn(
-                "nav-action-minimal hidden xl:inline-flex",
+                "nav-action-minimal hidden lg:inline-flex",
                 overlay
                   ? "text-white/75 hover:text-white"
                   : "text-muted-foreground hover:text-foreground",
@@ -115,7 +126,18 @@ export function PublicHeader({ className, overlay = false }: PublicHeaderProps) 
             </Link>
             <span
               className={cn(
-                "mx-1 hidden h-4 w-px xl:block",
+                "mx-1 hidden h-4 w-px lg:block",
+                overlay ? "bg-white/15" : "bg-border",
+              )}
+              aria-hidden
+            />
+            <HaremGoldLiveTrigger
+              overlay={overlay}
+              className="hidden lg:inline-flex"
+            />
+            <span
+              className={cn(
+                "mx-1 hidden h-4 w-px lg:block",
                 overlay ? "bg-white/15" : "bg-border",
               )}
               aria-hidden

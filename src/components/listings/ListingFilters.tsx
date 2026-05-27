@@ -3,6 +3,7 @@
 import { Loader2, RotateCcw } from "lucide-react";
 
 import { ListingFilterFields } from "@/components/listings/ListingFilterFields";
+import { ListingsSegmentSwitch } from "@/components/listings/ListingsSegmentSwitch";
 import { useListingFilters } from "@/components/listings/use-listing-filters";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -47,7 +48,13 @@ export function ListingFilters({ className }: ListingFiltersProps) {
           </Button>
         </div>
 
-        <ListingFilterFields filters={applied} onPatch={patchFilters} />
+        <ListingsSegmentSwitch className="listing-filter-sidebar-segment" />
+
+        <ListingFilterFields
+          filters={applied}
+          onPatch={patchFilters}
+          hideSearch
+        />
       </div>
     </aside>
   );

@@ -31,6 +31,8 @@ export type SiteSettings = {
   shortName: string;
   description: string;
   about: string;
+  /** Hakkımızda sayfası hero görseli */
+  aboutImageUrl?: string;
   logoUrl?: string;
   phone: string;
   phoneDisplay: string;

@@ -16,6 +16,11 @@ export const siteSettingsSchema = z.object({
   shortName: z.string().trim().min(2, "Kısa ad gereklidir."),
   description: z.string().trim().min(10, "Açıklama en az 10 karakter olmalıdır."),
   about: z.string().trim().min(20, "Hakkımızda metni en az 20 karakter olmalıdır."),
+  aboutImageUrl: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
   logoUrl: z.string().trim().optional().or(z.literal("").transform(() => undefined)),
   phone: z.string().trim().min(10, "Telefon gereklidir."),
   phoneDisplay: z.string().trim().min(10, "Görünen telefon gereklidir."),
