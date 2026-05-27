@@ -45,7 +45,7 @@ export function ListingFilterFields({
   const [search, setSearch] = useState(filters.search ?? "");
 
   useEffect(() => {
-    setSearch(filters.search ?? "");
+    queueMicrotask(() => setSearch(filters.search ?? ""));
   }, [filters.search]);
 
   useEffect(() => {

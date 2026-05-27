@@ -74,7 +74,9 @@ export function useLiveGoldPrices(enabled = true) {
   useEffect(() => {
     if (!enabled) return;
 
-    void load();
+    queueMicrotask(() => {
+      void load();
+    });
     const intervalId = window.setInterval(() => {
       void load();
     }, POLL_MS);

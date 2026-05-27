@@ -29,7 +29,7 @@ export function HomeProjectsMobileSlider({ projects }: HomeProjectsMobileSliderP
   );
 
   useEffect(() => {
-    setActive(0);
+    queueMicrotask(() => setActive(0));
   }, [count]);
 
   useEffect(() => {

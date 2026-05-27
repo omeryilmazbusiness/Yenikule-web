@@ -13,22 +13,16 @@ export default async function AdminPanelLayout({
 }) {
   const token = await getAuthToken();
 
-  try {
-    const user = await requireAdmin(token);
-
-    return (
-      <AdminShell
-        title="Yönetim Paneli"
-        userName={user.name}
-        userEmail={user.email}
-      >
-        {children}
-      </AdminShell>
-    );
-  } catch (error) {
+  const user = await requireAdmin(token).catch((error) => {
     if (error instanceof AuthError) {
       redirect(routes.auth.login);
     }
     throw error;
-  }
+  });
+
+  return (
+    <AdminShell title="Yönetim Paneli" userName={user.name} userEmail={user.email}>
+      {children}
+    </AdminShell>
+  );
 }

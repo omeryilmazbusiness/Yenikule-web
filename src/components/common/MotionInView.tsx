@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -25,16 +25,11 @@ export function MotionInView({
   stagger = true,
   once = true,
 }: MotionInViewProps) {
-  const [mounted, setMounted] = useState(false);
   const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const Static = as;
 
-  if (!mounted || reduceMotion) {
+  if (reduceMotion) {
     return <Static className={listClasses(as, stagger, className)}>{children}</Static>;
   }
 
@@ -62,16 +57,11 @@ export function MotionItem({
   className?: string;
   as?: "div" | "li" | "article";
 }) {
-  const [mounted, setMounted] = useState(false);
   const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const Static = as;
 
-  if (!mounted || reduceMotion) {
+  if (reduceMotion) {
     return <Static className={className}>{children}</Static>;
   }
 

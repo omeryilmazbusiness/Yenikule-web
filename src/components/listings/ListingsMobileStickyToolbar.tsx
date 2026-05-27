@@ -103,7 +103,7 @@ function ListingToolbar() {
   const filterCount = countListingFilters(applied);
 
   useEffect(() => {
-    setSearch(applied.search ?? "");
+    queueMicrotask(() => setSearch(applied.search ?? ""));
   }, [applied.search]);
 
   useEffect(() => {
@@ -233,7 +233,7 @@ function VehicleToolbar() {
   const filterCount = countVehicleFilters(applied);
 
   useEffect(() => {
-    setSearch(applied.search ?? "");
+    queueMicrotask(() => setSearch(applied.search ?? ""));
   }, [applied.search]);
 
   useEffect(() => {

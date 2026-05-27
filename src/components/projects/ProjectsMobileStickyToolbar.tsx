@@ -39,7 +39,7 @@ export function ProjectsMobileStickyToolbar() {
   const filterCount = countProjectFilters(applied);
 
   useEffect(() => {
-    setSearch(applied.search ?? "");
+    queueMicrotask(() => setSearch(applied.search ?? ""));
   }, [applied.search]);
 
   useEffect(() => {

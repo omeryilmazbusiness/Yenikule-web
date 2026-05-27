@@ -2,11 +2,14 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Container } from "@/components/common/Container";
-import { PageShell } from "@/components/layout/PageShell";
+import { VehicleDetailPanel } from "@/components/vehicles/VehicleDetailPanel";
+import { VehicleGallery } from "@/components/vehicles/VehicleGallery";
+import { VehicleStickyContactBar } from "@/components/vehicles/VehicleStickyContactBar";
+import { SimilarVehicles } from "@/components/vehicles/SimilarVehicles";
 import { vehicleService } from "@/features/vehicles/services/vehicle.service";
-import { formatVehiclePrice } from "@/features/vehicles/utils/vehicle-formatters";
 import { createPageMetadata } from "@/lib/seo";
 import { routes } from "@/lib/routes";
+import { IMAGE_PLACEHOLDERS, pickPrimaryImage } from "@/lib/images";
 
 type VehicleDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -24,7 +27,7 @@ export async function generateMetadata({ params }: VehicleDetailPageProps) {
     title: vehicle.title,
     description: vehicle.shortDescription,
     path: routes.vehicles.detail(slug),
-    image: vehicle.images[0],
+    image: pickPrimaryImage(vehicle.images, IMAGE_PLACEHOLDERS.vehicle),
   });
 }
 
@@ -38,26 +41,23 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
 
   return (
     <>
-      <Container className="py-4">
+      <Container className="listing-detail-page">
         <Breadcrumbs
+          className="mb-6 md:mb-8"
           items={[
             { label: "Araçlar", href: routes.vehicles.index },
             { label: vehicle.title },
           ]}
         />
-      </Container>
-      <PageShell title={vehicle.title} description={vehicle.shortDescription}>
-        <div className="space-y-4 text-muted-foreground">
-          <p className="text-2xl font-semibold text-foreground">
-            {formatVehiclePrice(vehicle)}
-          </p>
-          <p>
-            {vehicle.brand} {vehicle.model} · {vehicle.year} · {vehicle.mileage.toLocaleString("tr-TR")}{" "}
-            km
-          </p>
-          <p className="whitespace-pre-line leading-relaxed">{vehicle.description}</p>
+        <div className="listing-detail-layout">
+          <VehicleGallery images={vehicle.images} title={vehicle.title} />
+          <VehicleDetailPanel vehicle={vehicle} />
         </div>
-      </PageShell>
+      </Container>
+
+      <SimilarVehicles vehicle={vehicle} />
+      <VehicleStickyContactBar vehicle={vehicle} />
+      <div className="h-24 lg:hidden" aria-hidden />
     </>
   );
 }

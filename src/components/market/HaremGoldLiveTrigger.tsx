@@ -10,7 +10,7 @@ import {
   RefreshCw,
   TrendingUp,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import {
   Dialog,
@@ -26,20 +26,24 @@ import type { HaremGoldQuote } from "@/features/market/types/harem-gold.types";
 import { formatHaremGoldPrice } from "@/features/market/utils/parse-harem-gold";
 import { cn } from "@/lib/cn";
 
-const SYMBOL_ICONS: Record<string, LucideIcon> = {
-  XHGLD: Gem,
-  ALTIN: Gem,
-  GA: Coins,
-  GRAMALTIN: Coins,
-  C: CircleDollarSign,
-  CEYREK: CircleDollarSign,
-  USD: DollarSign,
-  USDTRY: DollarSign,
-};
-
-function getSymbolIcon(code: string): LucideIcon {
+function renderSymbolIcon(code: string): ReactNode {
   const key = code.replace(/\s+/g, "").toUpperCase();
-  return SYMBOL_ICONS[key] ?? TrendingUp;
+  switch (key) {
+    case "XHGLD":
+    case "ALTIN":
+      return <Gem className="size-4" />;
+    case "GA":
+    case "GRAMALTIN":
+      return <Coins className="size-4" />;
+    case "C":
+    case "CEYREK":
+      return <CircleDollarSign className="size-4" />;
+    case "USD":
+    case "USDTRY":
+      return <DollarSign className="size-4" />;
+    default:
+      return <TrendingUp className="size-4" />;
+  }
 }
 
 function formatUpdatedAt(iso: string): string {
@@ -61,12 +65,10 @@ type HaremGoldLiveTriggerProps = {
 };
 
 function GoldPriceRow({ item }: { item: HaremGoldQuote }) {
-  const Icon = getSymbolIcon(item.code);
-
   return (
     <li className="harem-gold-row">
       <span className="harem-gold-row-icon" aria-hidden>
-        <Icon className="size-4" />
+        {renderSymbolIcon(item.code)}
       </span>
       <div className="harem-gold-row-body">
         <p className="harem-gold-row-label">{item.label}</p>

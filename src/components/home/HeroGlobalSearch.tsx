@@ -148,7 +148,7 @@ export function HeroGlobalSearch({
   }, [closeResults]);
 
   useEffect(() => {
-    setActiveIndex(flatHits.length > 0 ? 0 : -1);
+    queueMicrotask(() => setActiveIndex(flatHits.length > 0 ? 0 : -1));
   }, [query, flatHits.length, filters]);
 
   function navigateToHit(hit: SearchHit, searchTerm?: string) {

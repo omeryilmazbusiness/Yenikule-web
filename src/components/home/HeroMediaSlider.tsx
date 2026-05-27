@@ -16,7 +16,7 @@ function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     const mq = window.matchMedia(query);
-    setMatches(mq.matches);
+    queueMicrotask(() => setMatches(mq.matches));
     const onChange = () => setMatches(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -37,8 +37,10 @@ function SlideMedia({ slide, isActive, preferPoster }: SlideMediaProps) {
   const [posterSrc, setPosterSrc] = useState(slide.poster);
 
   useEffect(() => {
-    setMediaFailed(false);
-    setPosterSrc(slide.poster);
+    queueMicrotask(() => {
+      setMediaFailed(false);
+      setPosterSrc(slide.poster);
+    });
   }, [slide.id, slide.poster]);
 
   useEffect(() => {

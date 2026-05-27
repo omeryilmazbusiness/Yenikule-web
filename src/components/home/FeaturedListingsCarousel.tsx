@@ -68,7 +68,7 @@ export function FeaturedListingsCarousel({
   const canSlide = pageCount > 1;
 
   useEffect(() => {
-    setPage(0);
+    queueMicrotask(() => setPage(0));
   }, [perPage]);
 
   useEffect(() => {
