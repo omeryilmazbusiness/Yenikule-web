@@ -1,4 +1,5 @@
 import { projectMockRepository } from "@/features/projects/repositories/project.mock.repository";
+import { projectPostgresRepository } from "@/features/projects/repositories/project.postgres.repository";
 import type { ProjectRepository } from "@/features/projects/repositories/project.repository";
 import type {
   Project,
@@ -13,7 +14,7 @@ function getRepository(): ProjectRepository {
   if (isMockMode()) {
     return projectMockRepository;
   }
-  return projectMockRepository;
+  return projectPostgresRepository;
 }
 
 export const projectService = {

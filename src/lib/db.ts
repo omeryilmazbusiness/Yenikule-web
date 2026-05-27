@@ -1,54 +1,25 @@
-/**
- * Veritabanı bağlantısı için gelecekteki entegrasyon noktası.
- * Şu an mock repository'ler kullanılmaktadır.
- */
-
+import { pingDatabase } from "@/lib/sql";
 import { env } from "@/lib/env";
 
-export type DatabaseClient = {
-  connect: () => Promise<void>;
-  disconnect: () => Promise<void>;
-  isConnected: () => boolean;
+export type DatabaseHealth = {
+  connected: boolean;
+  hasUrl: boolean;
+  error?: string;
 };
 
-class PlaceholderDatabase implements DatabaseClient {
-  private connected = false;
-
-  async connect(): Promise<void> {
-    if (!env.DATABASE_URL) {
-      throw new Error(
-        "DATABASE_URL tanımlı değil. Mock modunda veritabanı bağlantısı gerekmez.",
-      );
-    }
-    this.connected = true;
+export async function checkDatabaseHealth(): Promise<DatabaseHealth> {
+  if (!env.DATABASE_URL) {
+    return { connected: false, hasUrl: false, error: "DATABASE_URL tanımlı değil" };
   }
 
-  async disconnect(): Promise<void> {
-    this.connected = false;
-  }
-
-  isConnected(): boolean {
-    return this.connected;
-  }
-}
-
-let dbInstance: DatabaseClient | null = null;
-
-export function getDatabase(): DatabaseClient {
-  if (!dbInstance) {
-    dbInstance = new PlaceholderDatabase();
-  }
-  return dbInstance;
-}
-
-export async function withDatabase<T>(
-  fn: (db: DatabaseClient) => Promise<T>,
-): Promise<T> {
-  const db = getDatabase();
-  await db.connect();
   try {
-    return await fn(db);
-  } finally {
-    await db.disconnect();
+    await pingDatabase();
+    return { connected: true, hasUrl: true };
+  } catch (error) {
+    return {
+      connected: false,
+      hasUrl: true,
+      error: error instanceof Error ? error.message : "Bağlantı hatası",
+    };
   }
 }

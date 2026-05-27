@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: yenikule-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: yenikule
+      POSTGRES_PASSWORD: yenikule_dev
+      POSTGRES_DB: yenikule
+    volumes:
+      - yenikule_pg_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yenikule -d yenikule"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  yenikule_pg_data:

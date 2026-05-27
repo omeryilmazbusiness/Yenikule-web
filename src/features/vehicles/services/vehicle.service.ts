@@ -1,4 +1,5 @@
 import { vehicleMockRepository } from "@/features/vehicles/repositories/vehicle.mock.repository";
+import { vehiclePostgresRepository } from "@/features/vehicles/repositories/vehicle.postgres.repository";
 import type { VehicleRepository } from "@/features/vehicles/repositories/vehicle.repository";
 import type {
   Vehicle,
@@ -13,7 +14,7 @@ function getRepository(): VehicleRepository {
   if (isMockMode()) {
     return vehicleMockRepository;
   }
-  return vehicleMockRepository;
+  return vehiclePostgresRepository;
 }
 
 export const vehicleService = {

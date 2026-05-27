@@ -1,4 +1,5 @@
 import { listingMockRepository } from "@/features/listings/repositories/listing.mock.repository";
+import { listingPostgresRepository } from "@/features/listings/repositories/listing.postgres.repository";
 import type { ListingRepository } from "@/features/listings/repositories/listing.repository";
 import type {
   Listing,
@@ -13,7 +14,7 @@ function getRepository(): ListingRepository {
   if (isMockMode()) {
     return listingMockRepository;
   }
-  return listingMockRepository;
+  return listingPostgresRepository;
 }
 
 export const listingService = {

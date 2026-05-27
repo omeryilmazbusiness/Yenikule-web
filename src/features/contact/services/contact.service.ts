@@ -1,5 +1,6 @@
 import { contactFormSchema } from "@/features/contact/schemas/contact.schema";
 import { contactMockRepository } from "@/features/contact/repositories/contact.mock.repository";
+import { contactPostgresRepository } from "@/features/contact/repositories/contact.postgres.repository";
 import type { ContactRepository } from "@/features/contact/repositories/contact.repository";
 import type {
   ContactMessage,
@@ -14,7 +15,7 @@ function getRepository(): ContactRepository {
   if (isMockMode()) {
     return contactMockRepository;
   }
-  return contactMockRepository;
+  return contactPostgresRepository;
 }
 
 export const contactService = {
